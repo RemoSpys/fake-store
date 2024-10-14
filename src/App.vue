@@ -36,10 +36,19 @@ const handleCategoryChange = async (category) => {
 };
 
 const handleSort = () => {
-    // activeSort.value === DEFAULT ? ASC : activeSort === ASC ? DESC : DEFAULT
-    if (activeSort === DEFAULT) activeSort.value = ASC
-    if (activeSort === ASC) activeSort.value = DESC
-    activeSort.value = DEFAULT
+    if (activeSort.value === DEFAULT) {
+        activeSort.value = ASC
+    } else if (activeSort.value === ASC) {
+        activeSort.value = DESC
+    } else {
+        activeSort.value = DEFAULT
+    }
+
+    if(activeCategory.value === "Kõik") {
+        fetchAllProducts();
+    } else {
+        fetchProductsByCategory(activeCategory.value)
+    }
 }
 
 const handleCartAdd = async (product) => {
@@ -74,12 +83,14 @@ onMounted(async () => {
                     {{ category }}
                 </button>
             </div>
-            {{ activeSort }}
-            <button
-                @click="handleSort"
-            >
-                <AdjustmentsHorizontalIcon class="w-5 h-5 text-green-800" />
-            </button>
+            <div class="flex items-center gap-2">
+                <span class="uppercase text-gray-400 font-bold">{{ activeSort }}</span>
+                <button
+                    @click="handleSort"
+                >
+                    <AdjustmentsHorizontalIcon class="w-5 h-5 text-green-800" />
+                </button>
+            </div>
         </div>
         <div class="grid grid-cols-4 gap-4">
             <article
