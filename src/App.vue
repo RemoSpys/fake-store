@@ -2,6 +2,7 @@
 import axios from "axios";
 import { onMounted, ref } from "vue";
 import { AdjustmentsHorizontalIcon } from "@heroicons/vue/16/solid";
+import { useRouter, RouterLink } from 'vue-router'
 
 const products = ref([]);
 const categories = ref([]);
@@ -55,6 +56,8 @@ const handleCartAdd = async (product) => {
     console.log(product);
 };
 
+console.log(useRouter())
+
 onMounted(async () => {
     await fetchAllProducts();
     await fetchAllCategories();
@@ -93,10 +96,11 @@ onMounted(async () => {
             </div>
         </div>
         <div class="grid grid-cols-4 gap-4">
-            <article
+            <router-link
                 v-for="product in products"
                 :key="product.id"
                 class="flex flex-col justify-between gap-2 border rounded-md p-4"
+                :to="{ name: 'single-product', params: { id: product.id} }"
             >
                 <div class="space-y-4">
                     <img
@@ -116,7 +120,7 @@ onMounted(async () => {
                         Lisa ostukorvi
                     </button>
                 </div>
-            </article>
+            </router-link>
         </div>
     </section>
 </template>
